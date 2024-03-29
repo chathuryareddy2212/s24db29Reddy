@@ -1,0 +1,11 @@
+extends layout 
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  - let b = ["Image1.jpg", "Image2.jpg", "Image3.jpg", "Image4.jpg", "Image5.jpg" ]
+  - for (i=0;i<3;i++)
+      - let index = Math.floor(Math.random()*5);
+      - let Img = b[index];
+      img(src=`../images/${Img}`, alt=`${Img}`, height="300", width="300")

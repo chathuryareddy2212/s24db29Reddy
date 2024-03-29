@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1= title
+  p welcome to #{title}
+  - let results =  [{ tree_name: "Japanese Maple", lifespan: 50 , leafcolor: "Red"},{ tree_name: "Ginkgo",lifespan: 1000 , leafcolor: "golden yellow"},{ tree_name: "Red Maple", lifespan: 100 ,leafcolor: "orange"}]
+ 
+    div(class = "container-fluid")
+        div(class="row")
+            each item, index in results
+                div(class="col-sm-2" onclick = `buy(${index})` )
+                    ul
+                        li  #{item.tree_name}
+                        li  upto #{item.lifespan} years
+                        li  #{item.leafcolor}
+                        
+        script.
+            function buy(index){
+                  alert('purchased item will be ' + index);
+              }
