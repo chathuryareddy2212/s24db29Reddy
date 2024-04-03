@@ -4,11 +4,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('dotenv').config();
+const connectionString = process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString);
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var treeRouter = require('./routes/tree');
 var gridRouter = require('./routes/grid');
 var pickRouter = require('./routes/pick');
+var resourceRouter = require('./routes/resource');
+var Tree = require('./models/tree');
 
 var app = express();
 
@@ -27,6 +34,16 @@ app.use('/users', usersRouter);
 app.use('/tree', treeRouter);
 app.use('/grid', gridRouter);
 app.use('/pick', pickRouter);
+app.use('/resource', resourceRouter);
+//app.use('/tree', treeRouter);
+
+
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once("open", function(){
+console.log("Connection to DB succeeded")});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,5 +60,39 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+// We can seed the collection if needed on
+
+async function recreateDB(){
+// Delete everything
+await Tree.deleteMany();
+let instance1 = new
+Tree({tree_name:"Japanese Maple",lifespan:50,leafcolor:"Red"});
+instance1.save().then(doc=>{
+console.log("First object saved")}
+).catch(err=>{
+console.error(err)
+});
+
+let instance2 = new
+Tree({tree_name:"Ginkgo",lifespan:1000,leafcolor:"golden yellow"});
+instance2.save().then(doc=>{
+console.log("Second object saved")}
+).catch(err=>{
+console.error(err)
+});
+
+let instance3 = new
+Tree({tree_name:"Red Maple",lifespan:100,leafcolor:"orange"});
+instance3.save().then(doc=>{
+console.log("Third object saved")}
+).catch(err=>{
+console.error(err)
+});
+
+
+}
+let reseed = true;
+if (reseed) {recreateDB();}
+
 
 module.exports = app;
