@@ -18,3 +18,8 @@ router.get('/tree/:id', tree_controller.tree_detail);
 // GET request for list of all tree items.
 router.get('/tree', tree_controller.tree_list);
 module.exports = router;
+
+
+// GET request for one tree.
+router.get('/tree/:id', tree_controller.tree_detail);
+
