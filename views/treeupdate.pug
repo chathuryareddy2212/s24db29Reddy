@@ -1,0 +1,48 @@
+extends layout
+
+block content
+    h1= title
+
+    - let treeid = toShow._id
+    - let tree_name = toShow.tree_name  
+    - let lifespan = toShow.lifespan
+    - let leafcolor = toShow.leafcolor
+
+    div.row(class='mb-2')
+        div.mr-1= "ID is " + treeid
+        - let actionid = "/resource/treeupdate/" + treeid
+        form#treeForm(action=actionid, method="POST")
+            div.form-group
+                label.treeAttr(for='tree_name') tree type
+                input#tree_name.form-control(type='text', name='tree_name', value=tree_name)
+
+            div.form-group
+                label.treeAttr(for='lifespan') Lifespan
+                input#lifespan.form-control(type='number', name='lifespan', value=lifespan)
+
+            div.form-group
+                label.treeAttr(for='leafcolor') Leaf Color
+                input#leafcolor.form-control(type='text', name='leafcolor', value=leafcolor)
+
+            input.btn.btn-primary(type="submit", value="Update")
+
+    script.
+        document.getElementById('treeForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            // TODO: do something here to show the user that the form is being submitted
+
+            fetch(event.target.action, {
+                method: 'PUT',
+                body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+            }).then((resp) => {
+                return resp.text(); // or resp.text() or whatever the server sends
+            }).then((body) => {
+                alert("Update succeeded");
+
+                // TODO: handle body
+            }).catch((error) => {
+                // TODO: handle error
+                alert("Update failed: " + error);
+            });
+        });

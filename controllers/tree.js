@@ -16,9 +16,9 @@ exports.tree_delete = function (req, res) {
     res.send('NOT IMPLEMENTED: tree delete DELETE ' + req.params.id);
 };
 // Handle tree update form on PUT.
-exports.tree_update_put = function (req, res) {
-    res.send('NOT IMPLEMENTED: tree update PUT' + req.params.id);
-};
+// exports.tree_update_put = function (req, res) {
+//     res.send('NOT IMPLEMENTED: tree update PUT' + req.params.id);
+// };
 
 // List of all tree
 exports.tree_list = async function (req, res) {
@@ -104,8 +104,85 @@ exports.tree_update_put = async function (req, res) {
 
 
 
+// Handle tree delete on DELETE.
+exports.tree_delete = async function (req, res) {
+    console.log("delete " + req.params.id)
+    try {
+        result = await tree.findByIdAndDelete(req.params.id)
+        console.log("Removed " + result)
+        res.send(result)
+     } catch (err) {
+        res.status(500)
+        res.send(`{"error": Error deleting ${err}}`);
+     }
+};
 
 
+
+// Handle a show one view with id specified by query
+exports.tree_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await tree.findById( req.query.id)
+    res.render('treedetail',
+    { title: 'tree Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+    
+
+
+// Handle building the view for creating a tree.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.tree_create_Page = function(req, res) {
+    console.log("create view")
+    try{
+    res.render('treecreate', { title: 'tree Create'});
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+    
+
+// Handle building the view for updating a tree.
+// query provides the id
+exports.tree_update_Page = async function(req, res) {
+    console.log("update view for item "+req.query.id)
+    try{
+    let result = await tree.findById(req.query.id)
+    res.render('treeupdate', { title: 'tree Update', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+    
+
+    //Handle a delete one view with id from query
+    exports.tree_delete_Page = async function(req, res) {
+    console.log("Delete view for id " + req.query.id)
+    try{
+    result = await tree.findById(req.query.id)
+    res.render('treedelete', { title: 'tree Delete', toShow:
+    result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+   
+    
+    
+    
+    
 
 
 

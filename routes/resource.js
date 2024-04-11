@@ -8,11 +8,11 @@ var tree_controller = require('../controllers/tree');
 router.get('/', api_controller.api);
 /// tree ROUTES ///
 // POST request for creating a tree.
-router.post('/tree', tree_controller.tree_create_post);
+router.post('/newtree', tree_controller.tree_create_post);
 // DELETE request to delete tree.
-router.delete('/tree/:id', tree_controller.tree_delete);
+router.delete('/treeDelete/:id', tree_controller.tree_delete);
 // PUT request to update tree.
-router.put('/tree/:id', tree_controller.tree_update_put);
+router.put('/treeupdate/:id', tree_controller.tree_update_put);
 // GET request for one tree.
 router.get('/tree/:id', tree_controller.tree_detail);
 // GET request for list of all tree items.
@@ -20,6 +20,4 @@ router.get('/tree', tree_controller.tree_list);
 module.exports = router;
 
 
-// GET request for one tree.
-router.get('/tree/:id', tree_controller.tree_detail);
 

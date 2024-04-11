@@ -1,0 +1,53 @@
+extends layout
+
+block content
+
+        h1= title
+        style. 
+             body{
+                background-color: pink ;
+            }
+
+        form(id='treeForm', action="/resource/newtree", method="POST")
+
+            div.form-group
+                label.treeAttr(for='tree_name') tree name
+                input#tree_name(type='text', name='tree_name')
+
+            div.form-group
+                label.treeAttr(for='lifespan') lifespan
+                input#lifespan(type='number', name='lifespan')
+
+            div.form-group
+                label.treeAttr(for='leafcolor') leafcolor
+                input#leafcolor(type='text', name='leafcolor')
+            input(type="submit")
+
+        script.
+             document.forms['treeForm'].addEventListener('submit', (event) => {
+                    event.preventDefault();
+
+                // TODO do something here to show user that form is being submitted
+
+                fetch(event.target.action, {
+                    method: 'POST',
+                    body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+                })
+                .then((resp) => {
+                    return resp.text(); // or resp.text() or whatever the server sends
+                })
+                .then((body) => {
+                    alert("Save succeded")
+                    // TODO handle body
+                })
+                .catch((error) => {
+                    // TODO handle error
+                    alert("Save failed " + error)
+                });
+            });
+
+
+
+
+
+

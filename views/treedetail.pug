@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    h1= title
+    if(toShow == null)
+       h2 No instances to delete
+    else
+       - let treeid = toShow._id
+       - let tree_name  = toShow.tree_name
+       - let lifespan = toShow.lifespan
+       - let leafcolor = toShow.leafcolor
+       div
+            div.row
+                div(class='treeAttr mr-3') tree ID is:
+                div #{treeid}
+            div.row
+                div(class='treeAttr mr-3') tree Name is:
+                div #{tree_name}
+            div.row
+                div(class='treeAttr mr-3') tree lifespan is:
+                div #{lifespan}
+            div.row
+                div(class='treeAttr mr-3') tree leafcolor is:
+                div #{leafcolor}
