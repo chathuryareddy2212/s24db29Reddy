@@ -6,15 +6,21 @@ block content
   - let item =  results
  
     div(class = "container-fluid")
-        div(class="row")
+        div(class="row m-1")
             each item, index in results
-                div(class="col-sm-2" onclick = `buy(${index})` )
+                - let destination = `dispatch(\"/tree/update?id=${item._id}\")`
+           
+
+                div(class="col-sm-2" )
                     ul
                         li  #{item.tree_name}
                         li  upto #{item.lifespan} years
                         li  #{item.leafcolor}
-                        
+                button.btn( class="btn-primary ml-1", onclick= destination) Update        
+        
+        
         script.
-            function buy(index){
-                  alert('purchased item will be ' + index);
-              }
+            function dispatch(path){
+                 window.location.href=path
+            }
+        
