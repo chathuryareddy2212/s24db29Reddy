@@ -2,25 +2,33 @@ extends layout
 
 block content
   h1= title
-  p welcome to #{title}
-  - let item =  results
- 
-    div(class = "container-fluid")
-        div(class="row m-1")
-            each item, index in results
-                - let destination = `dispatch(\"/tree/update?id=${item._id}\")`
-           
 
-                div(class="col-sm-2" )
-                    ul
-                        li  #{item.tree_name}
-                        li  upto #{item.lifespan} years
-                        li  #{item.leafcolor}
-                button.btn( class="btn-primary ml-1", onclick= destination) Update        
-        
-        
-        script.
-            function dispatch(path){
-                 window.location.href=path
-            }
-        
+  p welcome to #{title}
+
+  - let create = `dispatch(\"/tree/create\")`
+
+  button.btn(class="btn-primary ml-1", onclick= create) Create
+
+  - let item = results
+
+  div(class="container-fluid")
+    div(class="row m-1")
+      each item, index in results
+        - let destinationUpdate = `dispatch(\"/tree/update?id=${item._id}\")`
+        - let destinationDetail = `dispatch(\"/tree/detail?id=${item._id}\")`
+        - let destinationDelete = `dispatch(\"/tree/delete?id=${item._id}\")`
+
+        div(class="col-sm-2")
+          ul
+            li #{item.tree_name}
+            li upto #{item.lifespan} years
+            li #{item.leafcolor}
+
+        button.btn(class="btn-success ml-1", onclick= destinationUpdate) Update
+        button.btn(class="btn-danger ml-1", onclick= destinationDetail) Detail
+        button.btn(class="btn-success ml-1", onclick= destinationDelete) Delete
+
+  script.
+    function dispatch(path){
+      window.location.href=path
+    }
